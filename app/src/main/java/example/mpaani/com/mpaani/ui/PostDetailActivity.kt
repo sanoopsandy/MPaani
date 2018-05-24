@@ -35,12 +35,7 @@ class PostDetailActivity : AppCompatActivity() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({ result ->
-                    val user: User
-                    if (post.id > 10) {
-                        user = result.last()
-                    } else {
-                        user = result.single { u -> u.id == post.id }
-                    }
+                    val user = result.single { u -> u.id == post.userId }
                     binding.user = user
                     Picasso.get().load("https://api.adorable.io/avatars/285/${user.email}.png").into(binding.imgAvatar)
                     binding.progress.visibility = View.GONE
