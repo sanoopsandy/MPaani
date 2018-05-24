@@ -3,6 +3,7 @@ package example.mpaani.com.mpaani.viewModels
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import example.mpaani.com.mpaani.models.Post
+import example.mpaani.com.mpaani.models.User
 import example.mpaani.com.mpaani.networkModules.NetworkDataManager
 import io.reactivex.Single
 
@@ -12,5 +13,9 @@ class PostListViewModel(application: Application) : AndroidViewModel(application
 
     fun getPostInfoList(): Single<ArrayList<Post>> {
         return networkDataManager.getPostsInfo()
+    }
+
+    fun getUserList(): Single<ArrayList<User>> {
+        return networkDataManager.getUsersData()
     }
 }

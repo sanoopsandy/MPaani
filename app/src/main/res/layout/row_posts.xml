@@ -4,12 +4,13 @@
 
     <data>
 
-        <import type="example.mpaani.com.mpaani.models.Post"/>
-        <import type="example.mpaani.com.mpaani.adapter.BaseRecyclerAdapter.BaseViewHolder"/>
+        <import type="example.mpaani.com.mpaani.models.Post" />
+
+        <import type="example.mpaani.com.mpaani.adapter.BaseRecyclerAdapter.BaseViewHolder" />
 
         <variable
             name="model"
-            type="Post"/>
+            type="Post" />
 
         <variable
             name="handler"
@@ -25,33 +26,48 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:onClick="@{(v) -> handler.onCustomClick(v, position)}"
-        android:padding="16dp">
+        android:onClick="@{(v) -> handler.onCustomClick(v, position)}">
+
+        <ImageView
+            android:id="@+id/imgAvatar"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:imageUrl="@{model.avatarUrl}"
+            android:src="@drawable/placeholder_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/txtPostTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@{model.title}"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imgAvatar"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/txtPostBody"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:ellipsize="end"
             android:maxLines="2"
             android:text="@{model.body}"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imgAvatar"
             app:layout_constraintTop_toBottomOf="@+id/txtPostTitle" />
 
 

@@ -8,10 +8,12 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Toast
+import com.squareup.picasso.Picasso
 import example.mpaani.com.mpaani.R
 import example.mpaani.com.mpaani.adapter.BaseRecyclerAdapter
 import example.mpaani.com.mpaani.databinding.ActivityMainBinding
 import example.mpaani.com.mpaani.models.Post
+import example.mpaani.com.mpaani.viewModels.PostDetailViewModel
 import example.mpaani.com.mpaani.viewModels.PostListViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -46,7 +48,7 @@ class MainActivity : AppCompatActivity(), BaseRecyclerAdapter.CustomClickListene
                     if (result != null) {
                         postList = result
                         binding.progress.visibility = View.GONE
-                        binding.items = postList
+                        observeUserDetails(viewModel)
                     } else {
                         Toast.makeText(this, "Please check you connection", Toast.LENGTH_LONG).show()
                     }
@@ -55,8 +57,22 @@ class MainActivity : AppCompatActivity(), BaseRecyclerAdapter.CustomClickListene
                 })
     }
 
+    private fun observeUserDetails(viewModel: PostListViewModel) {
+        viewModel.getUserList()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({ result ->
+                    postList.map { p ->
+                        val email = result.single { u -> u.id == p.userId}.email
+                        p.avatarUrl = "https://api.adorable.io/avatars/285/${email}.png"
+                    }
+                    binding.items = postList
+                }, { error ->
+                    error.printStackTrace()
+                })
+    }
+
     override fun onCustomClick(view: View, position: Int) {
-//        Toast.makeText(this, "Clicked ${position}", Toast.LENGTH_LONG).show()
         val bundle = Bundle()
         bundle.putSerializable("post", postList[position])
         val intent = Intent(this, PostDetailActivity::class.java)

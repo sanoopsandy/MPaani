@@ -5,7 +5,11 @@ import android.databinding.BindingAdapter
 import android.support.annotation.LayoutRes
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.widget.ImageView
+import com.squareup.picasso.Picasso
+import example.mpaani.com.mpaani.R
 import example.mpaani.com.mpaani.adapter.BaseRecyclerAdapter
+
 
 class BindingUtil {
 
@@ -25,7 +29,17 @@ class BindingUtil {
             } catch (e: Exception) {
                 e.printStackTrace()
             }
+        }
 
+        @JvmStatic
+        @BindingAdapter("imageUrl")
+        fun loadImage(view: ImageView, imageUrl: String) {
+            if (imageUrl.isNotEmpty()) {
+                Picasso.get()
+                        .load(imageUrl)
+                        .placeholder(R.drawable.placeholder_image)
+                        .into(view)
+            }
         }
     }
 }

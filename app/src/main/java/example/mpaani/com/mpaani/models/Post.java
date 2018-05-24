@@ -20,6 +20,8 @@ public class Post implements Serializable {
     @Expose
     private String body;
 
+    private String avatarUrl;
+
     public Integer getUserId() {
         return userId;
     }
@@ -52,4 +54,11 @@ public class Post implements Serializable {
         this.body = body;
     }
 
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
 }
