@@ -2,11 +2,10 @@ package example.mpaani.com.mpaani.viewModels
 
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
-import android.arch.lifecycle.LiveData
 import example.mpaani.com.mpaani.models.Comment
-import example.mpaani.com.mpaani.models.Post
 import example.mpaani.com.mpaani.models.User
 import example.mpaani.com.mpaani.networkModules.NetworkDataManager
+import io.reactivex.Single
 
 class PostDetailViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -16,14 +15,11 @@ class PostDetailViewModel(application: Application) : AndroidViewModel(applicati
         networkDataManager = NetworkDataManager()
     }
 
-    /*
-    * Expose livedata to view
-    * */
-    fun getUserList(): LiveData<ArrayList<User>> {
+    fun getUserList(): Single<ArrayList<User>> {
         return networkDataManager.getUsersData()
     }
 
-    fun getCommentList(): LiveData<ArrayList<Comment>> {
+    fun getCommentList(): Single<ArrayList<Comment>> {
         return networkDataManager.getCommentsData()
     }
 }

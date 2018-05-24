@@ -2,23 +2,15 @@ package example.mpaani.com.mpaani.viewModels
 
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
-import android.arch.lifecycle.LiveData
 import example.mpaani.com.mpaani.models.Post
 import example.mpaani.com.mpaani.networkModules.NetworkDataManager
+import io.reactivex.Single
 
 class PostListViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val networkDataManager: NetworkDataManager
+    private val networkDataManager: NetworkDataManager = NetworkDataManager()
 
-    init {
-        networkDataManager = NetworkDataManager()
+    fun getPostInfoList(): Single<ArrayList<Post>> {
+        return networkDataManager.getPostsInfo()
     }
-
-    /*
-    * Expose livedata to view
-    * */
-    fun getPostList(): LiveData<ArrayList<Post>> {
-        return networkDataManager.getPostsData()
-    }
-
 }

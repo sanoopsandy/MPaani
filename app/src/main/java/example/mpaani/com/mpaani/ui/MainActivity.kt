@@ -13,6 +13,8 @@ import example.mpaani.com.mpaani.adapter.BaseRecyclerAdapter
 import example.mpaani.com.mpaani.databinding.ActivityMainBinding
 import example.mpaani.com.mpaani.models.Post
 import example.mpaani.com.mpaani.viewModels.PostListViewModel
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), BaseRecyclerAdapter.CustomClickListener {
@@ -32,22 +34,25 @@ class MainActivity : AppCompatActivity(), BaseRecyclerAdapter.CustomClickListene
         rvPostList.adapter = baseAdapter
         baseAdapter.clickListener = this
 
-
         binding.progress.visibility = View.VISIBLE
-        observerPostList(postViewModel)
-
+        observePostInfoList(postViewModel)
     }
 
-    private fun observerPostList(viewModel: PostListViewModel) {
-        viewModel.getPostList().observe(this, Observer {
-            if (it != null) {
-                postList = it
-                binding.progress.visibility = View.GONE
-                binding.items = postList
-            } else {
-                Toast.makeText(this, "Please check you connection", Toast.LENGTH_LONG).show()
-            }
-        })
+    private fun observePostInfoList(viewModel: PostListViewModel) {
+        viewModel.getPostInfoList()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({ result ->
+                    if (result != null) {
+                        postList = result
+                        binding.progress.visibility = View.GONE
+                        binding.items = postList
+                    } else {
+                        Toast.makeText(this, "Please check you connection", Toast.LENGTH_LONG).show()
+                    }
+                }, { error ->
+                    error.printStackTrace()
+                })
     }
 
     override fun onCustomClick(view: View, position: Int) {
